@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 public class ListaLeilaoActivity extends AppCompatActivity {
 
     private static final String TITULO_APPBAR = "Leilões";
+    private static final String MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES = "Não foi possível carregar os leilões";
     private final LeilaoWebClient client = new LeilaoWebClient();
     private final AtualizadorDeLeiloes atualizadorDeLeiloes = new AtualizadorDeLeiloes();
     private ListaLeilaoAdapter adapter;
@@ -33,7 +35,6 @@ public class ListaLeilaoActivity extends AppCompatActivity {
     }
 
     private void configuraListaLeiloes() {
-
         configuraAdapter();
         configuraRecyclerView();
     }
@@ -61,10 +62,21 @@ public class ListaLeilaoActivity extends AppCompatActivity {
         startActivity(vaiParaLancesLeilao);
     }
 
+    public void mostraMensagemDeFalha() {
+        Toast.makeText(this,
+                MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES,
+                Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        atualizadorDeLeiloes.buscaLeiloes(adapter, client, this);
+        atualizadorDeLeiloes.buscaLeiloes(adapter, client, new AtualizadorDeLeiloes.ErroCarregaLeiloesListener() {
+            @Override
+            public void erroAoCarregar(String mensagem) {
+                mostraMensagemDeFalha();
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,7 @@ public class FormatadorDeMoedaTest {
 
         String moedaFormatada = formatador.formata(200.0);
 
-        assertThat(moedaFormatada, is(equalTo("R$ 200,00")));
+        assertThat(moedaFormatada, is(equalTo("R$ 200,00")));
     }
 
 }

@@ -1,10 +1,9 @@
 package br.com.alura.leilao.ui;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
-
-import android.content.Context;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,7 @@ public class AtualizadorDeLeiloesTest {
     @Mock
     private LeilaoWebClient client;
     @Mock
-    private Context context;
+    private AtualizadorDeLeiloes.ErroCarregaLeiloesListener listener;
 
     @Test
     public void deve_AtualizarListaDeLeiloes_QuandoBuscarLeiloesDaApi() {
@@ -43,12 +42,26 @@ public class AtualizadorDeLeiloesTest {
             return null;
         }).when(client).todos(ArgumentMatchers.any(RespostaListener.class));
 
-        atualizadorDeLeiloes.buscaLeiloes(adapter, client, context);
+        atualizadorDeLeiloes.buscaLeiloes(adapter, client, listener);
 
         verify(client).todos(any(RespostaListener.class));
         verify(adapter).atualiza(new ArrayList<>(Arrays.asList(
                 new Leilao("computador"),
                 new Leilao("console")
         )));
+    }
+
+    @Test
+    public void deve_ApresentarMensagemDeFalha_QuandoFalharABuscaDeLeiloes() {
+        AtualizadorDeLeiloes atualizador = new AtualizadorDeLeiloes();
+        doAnswer(invocation -> {
+            RespostaListener<List<Leilao>> argument = invocation.getArgument(0);
+            argument.falha(anyString());
+            return null;
+        }).when(client).todos(any(RespostaListener.class));
+
+        atualizador.buscaLeiloes(adapter, client, listener);
+
+        verify(listener).erroAoCarregar(anyString());
     }
 }
