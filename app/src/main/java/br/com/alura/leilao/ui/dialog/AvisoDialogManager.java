@@ -29,11 +29,11 @@ public class AvisoDialogManager {
         mostraDialog(context, MENSAGEM_AVISO_LANCE_MENOR_QUE_ULTIMO_LANCE);
     }
 
-    public static void mostraAvisoValorInvalido(Context context) {
+    public void mostraAvisoValorInvalido(Context context) {
         mostraDialog(context, MENSAGEM_AVISO_VALOR_INVALIDO);
     }
 
-    private static void mostraDialog(Context context, String mensagem) {
+    private void mostraDialog(Context context, String mensagem) {
         new AlertDialog.Builder(context)
                 .setMessage(mensagem)
                 .setPositiveButton(MENSAGEM_PADRAO_BOTAO_POSITIVO, null)

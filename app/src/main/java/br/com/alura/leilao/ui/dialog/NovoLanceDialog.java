@@ -10,6 +10,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.List;
 
 import br.com.alura.leilao.R;
@@ -17,13 +22,6 @@ import br.com.alura.leilao.database.dao.UsuarioDAO;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.ui.activity.ListaUsuarioActivity;
-
-import static br.com.alura.leilao.ui.dialog.AvisoDialogManager.mostraAvisoValorInvalido;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 public class NovoLanceDialog {
 
@@ -108,7 +106,7 @@ public class NovoLanceDialog {
                     Lance novoLance = new Lance(usuario, valor);
                     listener.lanceCriado(novoLance);
                 } catch (NumberFormatException e) {
-                    mostraAvisoValorInvalido(context);
+                    new AvisoDialogManager().mostraAvisoValorInvalido(context);
                 }
             }
         };
