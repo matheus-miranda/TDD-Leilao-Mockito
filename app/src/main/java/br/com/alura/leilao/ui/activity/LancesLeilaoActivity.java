@@ -19,6 +19,7 @@ import br.com.alura.leilao.database.dao.UsuarioDAO;
 import br.com.alura.leilao.formatter.FormatadorDeMoeda;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
+import br.com.alura.leilao.ui.dialog.AvisoDialogManager;
 import br.com.alura.leilao.ui.dialog.NovoLanceDialog;
 
 public class LancesLeilaoActivity extends AppCompatActivity {
@@ -94,7 +95,8 @@ public class LancesLeilaoActivity extends AppCompatActivity {
         EnviadorDeLance enviador = new EnviadorDeLance(
                 client,
                 lanceProcessadoListener(),
-                this);
+                this,
+                new AvisoDialogManager());
         enviador.envia(leilaoRecebido, lance);
     }
 
