@@ -27,32 +27,30 @@ public class EnviadorDeLanceTest {
     @Mock
     private EnviadorDeLance.LanceProcessadoListener listener;
     @Mock
-    private Context context;
-    @Mock
     private AvisoDialogManager aviso;
 
     @Test
     public void deve_MostrarMensagemDeFalha_QuandoLanceForMenorQueUltimoLance() {
-        EnviadorDeLance enviadorDeLance = new EnviadorDeLance(client, listener, context, aviso);
+        EnviadorDeLance enviadorDeLance = new EnviadorDeLance(client, listener, aviso);
         Leilao leilao = new Leilao("Console");
         Lance joao = new Lance(new Usuario("Joao"), 200.0);
 
         leilao.propoe(joao);
         enviadorDeLance.envia(leilao, new Lance(new Usuario("Joana"), 100.0));
 
-        verify(aviso).mostraAvisoLanceMenorQueUltimoLance(context);
+        verify(aviso).mostraAvisoLanceMenorQueUltimoLance();
     }
 
     @Test
     public void deve_MostrarMensagemDeFalha_QuandoUsuarioDerMaisDeCincoLances() {
-        EnviadorDeLance enviadorDeLance = new EnviadorDeLance(client, listener, context, aviso);
+        EnviadorDeLance enviadorDeLance = new EnviadorDeLance(client, listener, aviso);
         Leilao leilao = mock(Leilao.class);
         doThrow(UsuarioJaDeuCincoLancesException.class)
                 .when(leilao).propoe(any(Lance.class));
 
         enviadorDeLance.envia(leilao, new Lance(new Usuario("Joao"), 200.0));
 
-        verify(aviso).mostraAvisoUsuarioJaDeuCincoLances(context);
+        verify(aviso).mostraAvisoUsuarioJaDeuCincoLances();
     }
 
 }

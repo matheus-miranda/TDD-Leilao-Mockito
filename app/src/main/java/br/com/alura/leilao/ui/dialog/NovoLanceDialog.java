@@ -106,7 +106,7 @@ public class NovoLanceDialog {
                     Lance novoLance = new Lance(usuario, valor);
                     listener.lanceCriado(novoLance);
                 } catch (NumberFormatException e) {
-                    new AvisoDialogManager().mostraAvisoValorInvalido(context);
+                    new AvisoDialogManager(context).mostraAvisoValorInvalido();
                 }
             }
         };
