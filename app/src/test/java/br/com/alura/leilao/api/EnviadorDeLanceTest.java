@@ -10,9 +10,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 import br.com.alura.leilao.api.retrofit.client.LeilaoWebClient;
 import br.com.alura.leilao.api.retrofit.client.RespostaListener;
@@ -89,7 +87,17 @@ public class EnviadorDeLanceTest {
 
     @Test
     public void deve_NotificarLanceProcessado_QuandoEnviarLanceParaAPIComSucesso() {
+        enviadorDeLance = new EnviadorDeLance(client, listener, aviso);
+        doAnswer(invocation -> {
+            RespostaListener<Void> argument = invocation.getArgument(2);
+            argument.sucesso(any(Void.class));
+            return null;
+        }).when(client).propoe(any(Lance.class), anyLong(), any(RespostaListener.class));
 
+        enviadorDeLance.envia(leilao, new Lance(new Usuario("Joao"), 200.0));
+
+        verify(listener).processado(any(Leilao.class));
+        verify(aviso, never()).mostraToastFalhaNoEnvio();
     }
 
 }
