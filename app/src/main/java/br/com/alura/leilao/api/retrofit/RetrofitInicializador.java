@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitInicializador {
 
     private static final String URL_BASE = "http://192.168.15.6:8080/";
-    private final Retrofit retrofit;
+    protected final Retrofit retrofit;
 
     public RetrofitInicializador() {
         OkHttpClient client = configuraHttpClient();

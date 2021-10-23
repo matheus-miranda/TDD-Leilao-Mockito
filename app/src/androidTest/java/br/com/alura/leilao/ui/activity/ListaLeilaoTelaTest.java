@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import br.com.alura.leilao.api.retrofit.client.LeilaoWebClient;
+import br.com.alura.leilao.api.retrofit.client.TesteWebClient;
 import br.com.alura.leilao.model.Leilao;
 
 public class ListaLeilaoTelaTest {
@@ -24,7 +24,7 @@ public class ListaLeilaoTelaTest {
 
     @Test
     public void deveAparecerUmLeilao_QuandoCarregarUmLeilaoNaApi() throws IOException {
-        LeilaoWebClient webClient = new LeilaoWebClient();
+        TesteWebClient webClient = new TesteWebClient();
 
         boolean bancoNaoFoiLimpo = !webClient.limpaBanco();
         if (bancoNaoFoiLimpo) {
