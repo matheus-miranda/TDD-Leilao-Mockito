@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInicializador {
 
-    private static final String URL_BASE = "http://endereco_ip_da_api/";
+    private static final String URL_BASE = "http://192.168.15.6:8080/";
     private final Retrofit retrofit;
 
     public RetrofitInicializador() {
