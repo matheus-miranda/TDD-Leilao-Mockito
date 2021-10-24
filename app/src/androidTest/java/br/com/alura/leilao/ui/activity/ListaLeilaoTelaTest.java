@@ -5,8 +5,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.Matchers.allOf;
+import static br.com.alura.leilao.matchers.ViewMatcher.apareceLeilao;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import br.com.alura.leilao.R;
 import br.com.alura.leilao.api.retrofit.client.TesteWebClient;
+import br.com.alura.leilao.formatter.FormatadorDeMoeda;
 import br.com.alura.leilao.model.Leilao;
 
 public class ListaLeilaoTelaTest {
@@ -43,6 +44,11 @@ public class ListaLeilaoTelaTest {
 
         onView(allOf(withText("Casa"), withId(R.id.item_leilao_descricao)))
                 .check(matches(isDisplayed()));
+
+        String formatoEsperado = new FormatadorDeMoeda().formata(0.00);
+
+        onView(allOf(withText(formatoEsperado), withId(R.id.item_leilao_maior_lance)))
+                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -51,10 +57,12 @@ public class ListaLeilaoTelaTest {
 
         activity.launchActivity(new Intent());
 
-        onView(allOf(withText("Casa"), withId(R.id.item_leilao_descricao)))
-                .check(matches(isDisplayed()));
-        onView(allOf(withText("Computador"), withId(R.id.item_leilao_descricao)))
-                .check(matches(isDisplayed()));
+        // Matcher personalizado
+        onView(withId(R.id.lista_leilao_recyclerview))
+                .check(matches(apareceLeilao(0, "Casa", 0.00)));
+
+        onView(withId(R.id.lista_leilao_recyclerview))
+                .check(matches(apareceLeilao(1, "Computador", 0.00)));
     }
 
     @After
