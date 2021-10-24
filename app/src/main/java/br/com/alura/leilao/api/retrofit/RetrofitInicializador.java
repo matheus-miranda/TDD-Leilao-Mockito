@@ -5,6 +5,7 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 import androidx.annotation.NonNull;
 
+import br.com.alura.leilao.BuildConfig;
 import br.com.alura.leilao.api.retrofit.service.LeilaoService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -13,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInicializador {
 
-    private static final String URL_BASE = "http://192.168.15.6:8080/";
+    private static final String URL_BASE = BuildConfig.URL_BASE;
     protected final Retrofit retrofit;
 
     public RetrofitInicializador() {
