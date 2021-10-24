@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.allOf;
 import static br.com.alura.leilao.matchers.ViewMatcher.apareceLeilao;
 
 import android.content.Intent;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.After;
@@ -63,6 +64,28 @@ public class ListaLeilaoTelaTest {
 
         onView(withId(R.id.lista_leilao_recyclerview))
                 .check(matches(apareceLeilao(1, "Computador", 0.00)));
+    }
+
+    @Test
+    public void deveAparecerUltimoLeilao_QuandoCarregarDezLeiloesDaApi() throws IOException {
+        tentaSalvarLeilaoNaApi(
+                new Leilao("Carro"),
+                new Leilao("Computador"),
+                new Leilao("TV"),
+                new Leilao("Notebook"),
+                new Leilao("Console"),
+                new Leilao("Jogo"),
+                new Leilao("Estante"),
+                new Leilao("Quadro"),
+                new Leilao("Casa"),
+                new Leilao("Smartphone")
+        );
+
+        activity.launchActivity(new Intent());
+
+        onView(withId(R.id.lista_leilao_recyclerview))
+                .perform(RecyclerViewActions.scrollToPosition(9))
+                .check(matches(apareceLeilao(9, "Smartphone", 0.00)));
     }
 
     @After
